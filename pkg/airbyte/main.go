@@ -1,13 +1,21 @@
 package airbyte
 
 import (
-	"fmt"
 	"sync"
+
+	_ "embed"
 
 	"github.com/instill-ai/connector/pkg/base"
 	"github.com/instill-ai/connector/pkg/configLoader"
+
 	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
 )
+
+//go:embed config/seed/destination_definitions.yaml
+var destinationDefinitionsYaml []byte
+
+//go:embed config/seed/destination_specs.yaml
+var destinationSpecsYaml []byte
 
 var once sync.Once
 var connector base.IConnector
@@ -26,43 +34,21 @@ type Connection struct {
 
 func Init() base.IConnector {
 	once.Do(func() {
-		definitionMap := map[string]interface{}{}
+		connDefs := []*connectorPB.DestinationConnectorDefinition{}
 
 		configLoader.InitJSONSchema()
+		configLoader.Load(destinationDefinitionsYaml, destinationSpecsYaml, &connDefs)
 
-		dstConnDefs := []*connectorPB.DestinationConnectorDefinition{}
-		dstDefs := []*connectorPB.ConnectorDefinition{}
-		dockerImageSpecs := []*connectorPB.DockerImageSpec{}
+		definitionMap := map[string]interface{}{}
+		for idx := range connDefs {
+			definitionMap[connDefs[idx].GetUid()] = connDefs[idx]
 
-		if err := loadDefinitionAndDockerImageSpecs(&dstConnDefs, &dstDefs, &dockerImageSpecs); err != nil {
-			// logger.Fatal(err.Error())
-			fmt.Println(err)
 		}
-
-		for idx, def := range dstDefs {
-			var imgTag string
-			if def.GetDockerImageTag() != "" {
-				imgTag = ":" + def.GetDockerImageTag()
-			} else {
-				imgTag = def.GetDockerImageTag()
-			}
-			if spec, err := configLoader.DindDockerImageSpec(def.GetDockerRepository()+imgTag, &dockerImageSpecs); err != nil {
-				fmt.Println(err)
-			} else {
-				// Create destination definition record
-				if err := configLoader.CreateDestinationConnectorDefinition(dstConnDefs[idx], def, spec); err != nil {
-					fmt.Println(err)
-				}
-				definitionMap[dstConnDefs[idx].GetUid()] = dstConnDefs[idx]
-			}
-		}
-
 		connector = &Connector{
 			BaseConnector: base.BaseConnector{
 				DefinitionMap: definitionMap,
 			},
 		}
-
 	})
 	return connector
 }
@@ -72,5 +58,6 @@ func (c *Connector) CreateConnection(defUid string, config interface{}) (base.IC
 }
 
 func (Conn *Connection) Execute(input interface{}) (interface{}, error) {
+
 	return input, nil
 }

@@ -1,17 +1,25 @@
-package numbersProtocol
+package numbers
 
 import (
 	"fmt"
 	"sync"
 
+	_ "embed"
+
 	"github.com/instill-ai/connector/pkg/base"
+	"github.com/instill-ai/connector/pkg/configLoader"
+
 	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
 )
 
+//go:embed config/seed/destination_definitions.yaml
+var destinationDefinitionsYaml []byte
+
+//go:embed config/seed/destination_specs.yaml
+var destinationSpecsYaml []byte
+
 var once sync.Once
 var connector base.IConnector
-
-const DefinitionUuid = "70d8664a-d512-4517-a5e8-5d4da81756a7"
 
 type Config struct {
 	ApiUrl   string
@@ -29,9 +37,15 @@ type Connection struct {
 
 func Init() base.IConnector {
 	once.Do(func() {
+		connDefs := []*connectorPB.DestinationConnectorDefinition{}
+
+		configLoader.InitJSONSchema()
+		configLoader.Load(destinationDefinitionsYaml, destinationSpecsYaml, &connDefs)
+
 		definitionMap := map[string]interface{}{}
-		definitionMap[DefinitionUuid] = &connectorPB.DestinationConnectorDefinition{
-			Uid: DefinitionUuid,
+		for idx := range connDefs {
+			definitionMap[connDefs[idx].GetUid()] = connDefs[idx]
+
 		}
 		connector = &Connector{
 			BaseConnector: base.BaseConnector{

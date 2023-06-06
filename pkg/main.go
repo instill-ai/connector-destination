@@ -6,7 +6,7 @@ import (
 
 	"github.com/instill-ai/connector-destination/pkg/airbyte"
 	"github.com/instill-ai/connector-destination/pkg/instill"
-	"github.com/instill-ai/connector-destination/pkg/numbersProtocol"
+	"github.com/instill-ai/connector-destination/pkg/numbers"
 	"github.com/instill-ai/connector/pkg/base"
 )
 
@@ -15,9 +15,9 @@ var connector base.IConnector
 
 type Connector struct {
 	base.BaseConnector
-	airbyteConnector         base.IConnector
-	instillConnector         base.IConnector
-	numbersProtocolConnector base.IConnector
+	airbyteConnector base.IConnector
+	instillConnector base.IConnector
+	numbersConnector base.IConnector
 }
 
 func Init() base.IConnector {
@@ -26,7 +26,7 @@ func Init() base.IConnector {
 
 		airbyteConnector := airbyte.Init()
 		instillConnector := instill.Init()
-		numbersProtocolConnector := numbersProtocol.Init()
+		numbersConnector := numbers.Init()
 
 		// TODO: assert no duplicate uid
 		for k, v := range airbyteConnector.GetConnectorDefinitionMap() {
@@ -35,16 +35,16 @@ func Init() base.IConnector {
 		for k, v := range instillConnector.GetConnectorDefinitionMap() {
 			definitionMap[k] = v
 		}
-		for k, v := range numbersProtocolConnector.GetConnectorDefinitionMap() {
+		for k, v := range numbersConnector.GetConnectorDefinitionMap() {
 			definitionMap[k] = v
 		}
 		connector = &Connector{
 			BaseConnector: base.BaseConnector{
 				DefinitionMap: definitionMap,
 			},
-			airbyteConnector:         airbyteConnector,
-			instillConnector:         instillConnector,
-			numbersProtocolConnector: numbersProtocolConnector,
+			airbyteConnector: airbyteConnector,
+			instillConnector: instillConnector,
+			numbersConnector: numbersConnector,
 		}
 	})
 	return connector
@@ -56,8 +56,8 @@ func (c *Connector) CreateConnection(defUid string, config interface{}) (base.IC
 		return c.airbyteConnector.CreateConnection(defUid, config)
 	case c.instillConnector.HasUid(defUid):
 		return c.instillConnector.CreateConnection(defUid, config)
-	case c.numbersProtocolConnector.HasUid(defUid):
-		return c.numbersProtocolConnector.CreateConnection(defUid, config)
+	case c.numbersConnector.HasUid(defUid):
+		return c.numbersConnector.CreateConnection(defUid, config)
 	default:
 		return nil, fmt.Errorf("no destinationConnector uid: %s", defUid)
 	}
