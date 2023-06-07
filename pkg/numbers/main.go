@@ -1,4 +1,4 @@
-package instill
+package numbers
 
 import (
 	"sync"
@@ -15,8 +15,6 @@ import (
 	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
 )
 
-// Note: this is a dummy connector
-
 //go:embed config/seed/destination_definitions.yaml
 var destinationDefinitionsYaml []byte
 
@@ -30,12 +28,16 @@ type Connector struct {
 	base.BaseConnector
 }
 
+type ConnectorOptions struct {
+	APIToken string
+}
+
 type Connection struct {
 	base.BaseConnection
 	config *structpb.Struct
 }
 
-func Init(logger *zap.Logger) base.IConnector {
+func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 	once.Do(func() {
 		connDefs := []*connectorPB.DestinationConnectorDefinition{}
 
@@ -64,6 +66,5 @@ func (con *Connection) Execute(input interface{}) (interface{}, error) {
 }
 
 func (con *Connection) Test() (connectorPB.Connector_State, error) {
-	// Always connected
-	return connectorPB.Connector_STATE_CONNECTED, nil
+	return connectorPB.Connector_STATE_UNSPECIFIED, nil
 }

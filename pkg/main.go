@@ -4,9 +4,13 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/gofrs/uuid"
+	"go.uber.org/zap"
+	"google.golang.org/protobuf/types/known/structpb"
+
 	"github.com/instill-ai/connector-destination/pkg/airbyte"
 	"github.com/instill-ai/connector-destination/pkg/instill"
-	"github.com/instill-ai/connector-destination/pkg/numbersProtocol"
+	"github.com/instill-ai/connector-destination/pkg/numbers"
 	"github.com/instill-ai/connector/pkg/base"
 )
 
@@ -15,49 +19,66 @@ var connector base.IConnector
 
 type Connector struct {
 	base.BaseConnector
-	airbyteConnector         base.IConnector
-	instillConnector         base.IConnector
-	numbersProtocolConnector base.IConnector
+	airbyteConnector base.IConnector
+	instillConnector base.IConnector
+	numbersConnector base.IConnector
 }
 
-func Init() base.IConnector {
-	once.Do(func() {
-		definitionMap := map[string]interface{}{}
+type ConnectorOptions struct {
+	Airbyte airbyte.ConnectorOptions
+	Numbers numbers.ConnectorOptions
+}
 
-		airbyteConnector := airbyte.Init()
-		instillConnector := instill.Init()
-		numbersProtocolConnector := numbersProtocol.Init()
+func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
+	once.Do(func() {
+
+		airbyteConnector := airbyte.Init(logger, options.Airbyte)
+		instillConnector := instill.Init(logger)
+		// numbersConnector := numbers.Init(logger, options.Numbers)
+
+		connector = &Connector{
+			BaseConnector:    base.BaseConnector{Logger: logger},
+			airbyteConnector: airbyteConnector,
+			instillConnector: instillConnector,
+			// numbersConnector: numbersConnector,
+		}
 
 		// TODO: assert no duplicate uid
-		for k, v := range airbyteConnector.GetConnectorDefinitionMap() {
-			definitionMap[k] = v
+		// Note: we preserve the order as yaml
+		for _, uid := range airbyteConnector.ListConnectorDefinitionUids() {
+			def, err := airbyteConnector.GetConnectorDefinitionByUid(uid)
+			if err != nil {
+				logger.Error(err.Error())
+			}
+			connector.AddConnectorDefinition(uid, def.GetId(), def)
 		}
-		for k, v := range instillConnector.GetConnectorDefinitionMap() {
-			definitionMap[k] = v
+		for _, uid := range instillConnector.ListConnectorDefinitionUids() {
+			def, err := instillConnector.GetConnectorDefinitionByUid(uid)
+			if err != nil {
+				logger.Error(err.Error())
+			}
+			connector.AddConnectorDefinition(uid, def.GetId(), def)
 		}
-		for k, v := range numbersProtocolConnector.GetConnectorDefinitionMap() {
-			definitionMap[k] = v
-		}
-		connector = &Connector{
-			BaseConnector: base.BaseConnector{
-				DefinitionMap: definitionMap,
-			},
-			airbyteConnector:         airbyteConnector,
-			instillConnector:         instillConnector,
-			numbersProtocolConnector: numbersProtocolConnector,
-		}
+		// for _, uid := range numbersConnector.ListConnectorDefinitionUids() {
+		// 	def, err := numbersConnector.GetConnectorDefinitionByUid(uid)
+		// 	if err != nil {
+		// 		logger.Error(err.Error())
+		// 	}
+		// 	connector.AddConnectorDefinition(uid, def.GetId(), def)
+		// }
+
 	})
 	return connector
 }
 
-func (c *Connector) CreateConnection(defUid string, config interface{}) (base.IConnection, error) {
+func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (base.IConnection, error) {
 	switch {
 	case c.airbyteConnector.HasUid(defUid):
-		return c.airbyteConnector.CreateConnection(defUid, config)
+		return c.airbyteConnector.CreateConnection(defUid, config, logger)
 	case c.instillConnector.HasUid(defUid):
-		return c.instillConnector.CreateConnection(defUid, config)
-	case c.numbersProtocolConnector.HasUid(defUid):
-		return c.numbersProtocolConnector.CreateConnection(defUid, config)
+		return c.instillConnector.CreateConnection(defUid, config, logger)
+	// case c.numbersConnector.HasUid(defUid):
+	// 	return c.numbersConnector.CreateConnection(defUid, config, logger)
 	default:
 		return nil, fmt.Errorf("no destinationConnector uid: %s", defUid)
 	}
