@@ -1,10 +1,13 @@
 package numbers
 
 import (
-	"fmt"
 	"sync"
 
 	_ "embed"
+
+	"github.com/gofrs/uuid"
+	"go.uber.org/zap"
+	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/connector/pkg/base"
 	"github.com/instill-ai/connector/pkg/configLoader"
@@ -21,46 +24,43 @@ var destinationSpecsYaml []byte
 var once sync.Once
 var connector base.IConnector
 
-type Config struct {
-	ApiUrl   string
-	ApiToken string
-}
-
 type Connector struct {
 	base.BaseConnector
 }
 
 type Connection struct {
 	base.BaseConnection
-	config Config
+	config *structpb.Struct
 }
 
-func Init() base.IConnector {
+func Init(logger *zap.Logger) base.IConnector {
 	once.Do(func() {
 		connDefs := []*connectorPB.DestinationConnectorDefinition{}
 
-		configLoader.InitJSONSchema()
-		configLoader.Load(destinationDefinitionsYaml, destinationSpecsYaml, &connDefs)
+		loader := configLoader.InitJSONSchema(logger)
+		loader.Load(destinationDefinitionsYaml, destinationSpecsYaml, &connDefs)
 
-		definitionMap := map[string]interface{}{}
-		for idx := range connDefs {
-			definitionMap[connDefs[idx].GetUid()] = connDefs[idx]
-
-		}
 		connector = &Connector{
-			BaseConnector: base.BaseConnector{
-				DefinitionMap: definitionMap,
-			},
+			BaseConnector: base.BaseConnector{Logger: logger},
+		}
+		for idx := range connDefs {
+			connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
 		}
 	})
 	return connector
 }
 
-func (c *Connector) CreateConnection(defUid string, config interface{}) (base.IConnection, error) {
-	return &Connection{config: config.(Config)}, nil
+func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (base.IConnection, error) {
+	return &Connection{
+		BaseConnection: base.BaseConnection{Logger: logger},
+		config:         config,
+	}, nil
 }
 
-func (Conn *Connection) Execute(input interface{}) (interface{}, error) {
-	fmt.Printf("%s %s\n", Conn.config.ApiUrl, Conn.config.ApiToken)
+func (con *Connection) Execute(input interface{}) (interface{}, error) {
 	return input, nil
+}
+
+func (con *Connection) Test() (connectorPB.Connector_State, error) {
+	return connectorPB.Connector_STATE_UNSPECIFIED, nil
 }
