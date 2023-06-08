@@ -1,4 +1,4 @@
-package airbyte
+package common
 
 import (
 	"bytes"
@@ -11,8 +11,20 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/encoding/protojson"
 
+	mgmtPB "github.com/instill-ai/protogen-go/vdp/mgmt/v1alpha"
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
+
+// WriteDestinationConnectorParam stores the parameters for WriteDestinationConnector service per model
+type WriteDestinationConnectorParam struct {
+	SyncMode           string
+	DstSyncMode        string
+	Pipeline           string
+	Recipe             *pipelinePB.Recipe
+	DataMappingIndices []string
+	ModelOutputs       []*pipelinePB.ModelOutput
+	Owner              *mgmtPB.User
+}
 
 // AirbyteMessage defines the AirbyteMessage protocol  as in
 // https://github.com/airbytehq/airbyte/blob/master/airbyte-protocol/protocol-models/src/main/resources/airbyte_protocol/airbyte_protocol.yaml#L13-L49
@@ -62,23 +74,13 @@ type ConfiguredAirbyteStream struct {
 	PrimaryKey          []string       `json:"primary_key"`
 }
 
-// WriteDestinationConnectorParam stores the parameters for WriteDestinationConnector service per model
-type WriteDestinationConnectorParam struct {
-	SyncMode           string
-	DstSyncMode        string
-	Pipeline           string
-	Recipe             *pipelinePB.Recipe
-	DataMappingIndices []string
-	ModelOutputs       []*pipelinePB.ModelOutput
-}
-
 // TaskOutputAirbyteCatalog stores the pre-defined task AirbyteCatalog
 var TaskOutputAirbyteCatalog AirbyteCatalog
 
 var sch *jsonschema.Schema
 
 // InitAirbyteCatalog reads all task AirbyteCatalog files and stores the JSON content in the global TaskAirbyteCatalog variable
-func InitAirbyteCatalog(logger *zap.Logger, vdpProtocolPath string) {
+func InitValidator(logger *zap.Logger, vdpProtocolPath string) {
 
 	yamlFile, err := os.ReadFile(vdpProtocolPath)
 	if err != nil {
@@ -114,8 +116,8 @@ func InitAirbyteCatalog(logger *zap.Logger, vdpProtocolPath string) {
 
 }
 
-// ValidateAirbyteCatalog validates the TaskAirbyteCatalog's JSON schema given the task type and the batch data (i.e., the output from model-backend trigger)
-func ValidateAirbyteCatalog(taskOutputs []*pipelinePB.TaskOutput) error {
+// Validate validates the TaskAirbyteCatalog's JSON schema given the task type and the batch data (i.e., the output from model-backend trigger)
+func Validate(taskOutputs []*pipelinePB.TaskOutput) error {
 
 	// Check each element in the batch
 	for idx, taskOutput := range taskOutputs {

@@ -27,6 +27,7 @@ import (
 
 	dockerclient "github.com/docker/docker/client"
 
+	"github.com/instill-ai/connector-destination/pkg/common"
 	"github.com/instill-ai/connector/pkg/base"
 	"github.com/instill-ai/connector/pkg/configLoader"
 
@@ -92,7 +93,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 		for idx := range connDefs {
 			connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
 		}
-		InitAirbyteCatalog(logger, options.VDPProtocolPath)
+		common.InitValidator(logger, options.VDPProtocolPath)
 
 	})
 	return connector
@@ -110,12 +111,12 @@ func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, 
 
 func (con *Connection) Execute(input interface{}) (interface{}, error) {
 
-	param := input.(WriteDestinationConnectorParam)
+	param := input.(common.WriteDestinationConnectorParam)
 	// Create ConfiguredAirbyteCatalog
-	cfgAbCatalog := ConfiguredAirbyteCatalog{
-		Streams: []ConfiguredAirbyteStream{
+	cfgAbCatalog := common.ConfiguredAirbyteCatalog{
+		Streams: []common.ConfiguredAirbyteStream{
 			{
-				Stream:              &TaskOutputAirbyteCatalog.Streams[0],
+				Stream:              &common.TaskOutputAirbyteCatalog.Streams[0],
 				SyncMode:            param.SyncMode,
 				DestinationSyncMode: param.DstSyncMode,
 			},
@@ -176,10 +177,10 @@ func (con *Connection) Execute(input interface{}) (interface{}, error) {
 				return nil, fmt.Errorf("task_outputs[%d] error: %w", idx, err)
 			}
 
-			abMsg := AirbyteMessage{}
+			abMsg := common.AirbyteMessage{}
 			abMsg.Type = "RECORD"
-			abMsg.Record = &AirbyteRecordMessage{
-				Stream:    TaskOutputAirbyteCatalog.Streams[0].Name,
+			abMsg.Record = &common.AirbyteRecordMessage{
+				Stream:    common.TaskOutputAirbyteCatalog.Streams[0].Name,
 				Data:      b,
 				EmittedAt: time.Now().UnixMilli(),
 			}
