@@ -46,7 +46,10 @@ func Init(logger *zap.Logger) base.IConnector {
 			BaseConnector: base.BaseConnector{Logger: logger},
 		}
 		for idx := range connDefs {
-			connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+			err := connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+			if err != nil {
+				logger.Warn(err.Error())
+			}
 		}
 	})
 	return connector

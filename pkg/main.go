@@ -34,13 +34,13 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 
 		airbyteConnector := airbyte.Init(logger, options.Airbyte)
 		instillConnector := instill.Init(logger)
-		// numbersConnector := numbers.Init(logger, options.Numbers)
+		numbersConnector := numbers.Init(logger, options.Numbers)
 
 		connector = &Connector{
 			BaseConnector:    base.BaseConnector{Logger: logger},
 			airbyteConnector: airbyteConnector,
 			instillConnector: instillConnector,
-			// numbersConnector: numbersConnector,
+			numbersConnector: numbersConnector,
 		}
 
 		// TODO: assert no duplicate uid
@@ -50,22 +50,31 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 			if err != nil {
 				logger.Error(err.Error())
 			}
-			connector.AddConnectorDefinition(uid, def.GetId(), def)
+			err = connector.AddConnectorDefinition(uid, def.GetId(), def)
+			if err != nil {
+				logger.Warn(err.Error())
+			}
 		}
 		for _, uid := range instillConnector.ListConnectorDefinitionUids() {
 			def, err := instillConnector.GetConnectorDefinitionByUid(uid)
 			if err != nil {
 				logger.Error(err.Error())
 			}
-			connector.AddConnectorDefinition(uid, def.GetId(), def)
+			err = connector.AddConnectorDefinition(uid, def.GetId(), def)
+			if err != nil {
+				logger.Warn(err.Error())
+			}
 		}
-		// for _, uid := range numbersConnector.ListConnectorDefinitionUids() {
-		// 	def, err := numbersConnector.GetConnectorDefinitionByUid(uid)
-		// 	if err != nil {
-		// 		logger.Error(err.Error())
-		// 	}
-		// 	connector.AddConnectorDefinition(uid, def.GetId(), def)
-		// }
+		for _, uid := range numbersConnector.ListConnectorDefinitionUids() {
+			def, err := numbersConnector.GetConnectorDefinitionByUid(uid)
+			if err != nil {
+				logger.Error(err.Error())
+			}
+			err = connector.AddConnectorDefinition(uid, def.GetId(), def)
+			if err != nil {
+				logger.Warn(err.Error())
+			}
+		}
 
 	})
 	return connector
@@ -77,8 +86,8 @@ func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, 
 		return c.airbyteConnector.CreateConnection(defUid, config, logger)
 	case c.instillConnector.HasUid(defUid):
 		return c.instillConnector.CreateConnection(defUid, config, logger)
-	// case c.numbersConnector.HasUid(defUid):
-	// 	return c.numbersConnector.CreateConnection(defUid, config, logger)
+	case c.numbersConnector.HasUid(defUid):
+		return c.numbersConnector.CreateConnection(defUid, config, logger)
 	default:
 		return nil, fmt.Errorf("no destinationConnector uid: %s", defUid)
 	}

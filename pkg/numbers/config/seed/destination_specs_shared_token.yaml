@@ -4,16 +4,10 @@
     connectionSpecification:
       $schema: http://json-schema.org/draft-07/schema#
       required:
-      - "captureToken"
-      - "creatorName"
-      - "license"
+        - "creatorName"
+        - "license"
       additionalProperties: true
       properties:
-        captureToken:
-          title: "Capture Token"
-          description: "CaptureToken from NumbersProtocol"
-          type: "string"
-          order: 0
         creatorName:
           title: "Creator Name"
           description: "The Asset Creator Name display on https://nftsearch.site"

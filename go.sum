@@ -35,8 +35,6 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 h1:gDLXvp5S9izjldquuoAhDzccbsk
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2/go.mod h1:7pdNwVWBBHGiCxa9lAszqCJMbfTISJ7oMftp8+UGV08=
 github.com/iancoleman/strcase v0.2.0 h1:05I4QRnGpI0m37iZQRuskXh+w77mr6Z41lwQzuHLwW0=
 github.com/iancoleman/strcase v0.2.0/go.mod h1:iwCmte+B7n89clKwxIoIXy/HfoL7AsD47ZCWhYzw7ho=
-github.com/instill-ai/connector v0.0.0-20230607055515-44d11e5e909e h1:dDfwBTvKb0hBy5g7MK9Gj6BRoAyS4k6f8szFO+hLP/M=
-github.com/instill-ai/connector v0.0.0-20230607055515-44d11e5e909e/go.mod h1:JQSmkMUh4dWHjL+BXwCbQvJfIOEr5D57iiGasr4xTaI=
 github.com/instill-ai/connector v0.0.0-20230607085408-06a038e17b8e h1:s2gsgcINuuedPF/iQKzsMlaGQMO2I5dGj98XuIs+3uk=
 github.com/instill-ai/connector v0.0.0-20230607085408-06a038e17b8e/go.mod h1:JQSmkMUh4dWHjL+BXwCbQvJfIOEr5D57iiGasr4xTaI=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230523000406-299e9451af13 h1:qC0Xe0zCpmgq02vClxL4OS1ZLjDmFUn/KuJOtJxINmI=

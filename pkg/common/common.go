@@ -26,6 +26,11 @@ type WriteDestinationConnectorParam struct {
 	Owner              *mgmtPB.User
 }
 
+// WriteDestinationConnectorParam stores the parameters for WriteDestinationConnector service per model
+type WriteDestinationConnectorOutput struct {
+	DataOutputMap map[string]interface{}
+}
+
 // AirbyteMessage defines the AirbyteMessage protocol  as in
 // https://github.com/airbytehq/airbyte/blob/master/airbyte-protocol/protocol-models/src/main/resources/airbyte_protocol/airbyte_protocol.yaml#L13-L49
 type AirbyteMessage struct {
