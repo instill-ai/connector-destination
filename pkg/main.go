@@ -21,7 +21,6 @@ type Connector struct {
 	base.BaseConnector
 	airbyteConnector base.IConnector
 	instillConnector base.IConnector
-	numbersConnector base.IConnector
 }
 
 type ConnectorOptions struct {
@@ -50,14 +49,20 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 			if err != nil {
 				logger.Error(err.Error())
 			}
-			connector.AddConnectorDefinition(uid, def.GetId(), def)
+			err = connector.AddConnectorDefinition(uid, def.GetId(), def)
+			if err != nil {
+				logger.Warn(err.Error())
+			}
 		}
 		for _, uid := range instillConnector.ListConnectorDefinitionUids() {
 			def, err := instillConnector.GetConnectorDefinitionByUid(uid)
 			if err != nil {
 				logger.Error(err.Error())
 			}
-			connector.AddConnectorDefinition(uid, def.GetId(), def)
+			err = connector.AddConnectorDefinition(uid, def.GetId(), def)
+			if err != nil {
+				logger.Warn(err.Error())
+			}
 		}
 		// for _, uid := range numbersConnector.ListConnectorDefinitionUids() {
 		// 	def, err := numbersConnector.GetConnectorDefinitionByUid(uid)

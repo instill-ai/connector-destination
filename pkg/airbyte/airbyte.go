@@ -62,16 +62,6 @@ type ConfiguredAirbyteStream struct {
 	PrimaryKey          []string       `json:"primary_key"`
 }
 
-// WriteDestinationConnectorParam stores the parameters for WriteDestinationConnector service per model
-type WriteDestinationConnectorParam struct {
-	SyncMode           string
-	DstSyncMode        string
-	Pipeline           string
-	Recipe             *pipelinePB.Recipe
-	DataMappingIndices []string
-	ModelOutputs       []*pipelinePB.ModelOutput
-}
-
 // TaskOutputAirbyteCatalog stores the pre-defined task AirbyteCatalog
 var TaskOutputAirbyteCatalog AirbyteCatalog
 
