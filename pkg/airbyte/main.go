@@ -101,6 +101,27 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 	return connector
 }
 
+func (c *Connector) PreDownloadImage(logger *zap.Logger) error {
+	connDefs := c.ListConnectorDefinitions()
+	for idx := range connDefs {
+		err := connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+		if err != nil {
+			logger.Warn(err.Error())
+		}
+		imageName := fmt.Sprintf("%s:%s", connDefs[idx].GetConnectorDefinition().DockerRepository, connDefs[idx].GetConnectorDefinition().DockerImageTag)
+		logger.Info(fmt.Sprintf("download %s", imageName))
+		out, err := c.dockerClient.ImagePull(context.Background(), imageName, types.ImagePullOptions{})
+		if err != nil {
+			return err
+		}
+		defer out.Close()
+		if _, err := io.Copy(os.Stdout, out); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (base.IConnection, error) {
 
 	return &Connection{
