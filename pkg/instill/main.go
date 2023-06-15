@@ -46,7 +46,10 @@ func Init(logger *zap.Logger) base.IConnector {
 			BaseConnector: base.BaseConnector{Logger: logger},
 		}
 		for idx := range connDefs {
-			connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+			err := connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+			if err != nil {
+				logger.Warn(err.Error())
+			}
 		}
 	})
 	return connector
@@ -59,7 +62,7 @@ func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, 
 	}, nil
 }
 
-func (con *Connection) Execute(input interface{}) (interface{}, error) {
+func (con *Connection) Execute(input []*connectorPB.DataPayload) ([]*connectorPB.DataPayload, error) {
 	return input, nil
 }
 

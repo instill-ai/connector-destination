@@ -90,7 +90,10 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 			options:       options,
 		}
 		for idx := range connDefs {
-			connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+			err := connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+			if err != nil {
+				logger.Warn(err.Error())
+			}
 		}
 		InitAirbyteCatalog(logger, options.VDPProtocolPath)
 
@@ -108,32 +111,31 @@ func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, 
 	}, nil
 }
 
-func (con *Connection) Execute(input interface{}) (interface{}, error) {
+func (con *Connection) Execute(input []*connectorPB.DataPayload) ([]*connectorPB.DataPayload, error) {
 
-	param := input.(WriteDestinationConnectorParam)
 	// Create ConfiguredAirbyteCatalog
 	cfgAbCatalog := ConfiguredAirbyteCatalog{
 		Streams: []ConfiguredAirbyteStream{
 			{
 				Stream:              &TaskOutputAirbyteCatalog.Streams[0],
-				SyncMode:            param.SyncMode,
-				DestinationSyncMode: param.DstSyncMode,
+				SyncMode:            "full_refresh", // TODO: config
+				DestinationSyncMode: "append",       // TODO: config
 			},
 		},
 	}
 
 	byteCfgAbCatalog, err := json.Marshal(&cfgAbCatalog)
 	if err != nil {
-		return nil, fmt.Errorf("Marshal AirbyteMessage error: %w", err)
+		return nil, fmt.Errorf("marshal AirbyteMessage error: %w", err)
 	}
 
 	// Create AirbyteMessage RECORD type, i.e., AirbyteRecordMessage in JSON Line format
 	var byteAbMsgs []byte
 
-	for _, modelOutput := range param.ModelOutputs {
+	// TODO: should define new vdp_protocol for this
+	for idx, dataPayload := range input {
 
-		for idx, taskOutput := range modelOutput.TaskOutputs {
-
+		for modelName, taskOutput := range dataPayload.Json.GetFields() {
 			b, err := protojson.MarshalOptions{
 				UseProtoNames:   true,
 				EmitUnpopulated: true,
@@ -147,29 +149,9 @@ func (con *Connection) Execute(input interface{}) (interface{}, error) {
 			if err != nil {
 				return nil, fmt.Errorf("task_outputs[%d] error: %w", idx, err)
 			}
-
-			b, err = protojson.MarshalOptions{
-				UseProtoNames:   true,
-				EmitUnpopulated: true,
-			}.Marshal(param.Recipe)
-			if err != nil {
-				return nil, fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-			}
-
-			recipeStruct := structpb.Struct{}
-			err = protojson.Unmarshal(b, &recipeStruct)
-			if err != nil {
-				return nil, fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-			}
-
-			pipelineStruct := structpb.Struct{}
-			pipelineStruct.Fields = make(map[string]*structpb.Value)
-			pipelineStruct.GetFields()["name"] = structpb.NewStringValue(param.Pipeline)
-			pipelineStruct.GetFields()["recipe"] = structpb.NewStructValue(&recipeStruct)
-
-			dataStruct.GetFields()["pipeline"] = structpb.NewStructValue(&pipelineStruct)
-			dataStruct.GetFields()["model"] = structpb.NewStringValue(modelOutput.Model)
-			dataStruct.GetFields()["index"] = structpb.NewStringValue(param.DataMappingIndices[idx])
+			dataStruct.GetFields()["index"] = structpb.NewStringValue(dataPayload.DataMappingIndex)
+			dataStruct.GetFields()["model"] = structpb.NewStringValue(modelName)
+			dataStruct.GetFields()["pipeline"] = dataPayload.GetMetadata().GetFields()["pipeline"]
 
 			b, err = protojson.Marshal(&dataStruct)
 			if err != nil {
@@ -351,8 +333,6 @@ func (con *Connection) Execute(input interface{}) (interface{}, error) {
 	con.Logger.Info(fmt.Sprintln("Activity",
 		"ImageName", imageName,
 		"ContainerName", containerName,
-		"Pipeline", param.Pipeline,
-		"Indices", param.DataMappingIndices,
 		"STDOUT", bufStdOut.String()))
 
 	// Delete the cache entry only after the write completed
