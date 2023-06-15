@@ -232,7 +232,7 @@ func (con *Connection) Execute(input interface{}) (interface{}, error) {
 	}
 
 	// Write catalog into a container local file (always overwrite)
-	catalogFilePath := fmt.Sprintf("%s/connector-data/catalog/%s.json", con.connector.options.MountSourceVDP, catalogFileName)
+	catalogFilePath := fmt.Sprintf("%s/connector-data/catalog/%s.json", con.connector.options.MountTargetVDP, catalogFileName)
 	if err := os.MkdirAll(filepath.Dir(catalogFilePath), os.ModePerm); err != nil {
 		return nil, fmt.Errorf(fmt.Sprintf("unable to create folders for filepath %s", catalogFilePath), "WriteContainerLocalFileError", err)
 	}
