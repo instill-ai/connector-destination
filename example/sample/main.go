@@ -5,7 +5,6 @@ import (
 
 	connectorDestination "github.com/instill-ai/connector-destination/pkg"
 	connectorDestinationAirbyte "github.com/instill-ai/connector-destination/pkg/airbyte"
-	connectorDestinationNumbers "github.com/instill-ai/connector-destination/pkg/numbers"
 	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
 	"go.uber.org/zap"
 )
@@ -21,9 +20,6 @@ func main() {
 			MountSourceAirbyte: "airbyte",
 			MountTargetAirbyte: "/tmp/airbyte",
 			VDPProtocolPath:    "vdp_protocol.yaml",
-		},
-		Numbers: connectorDestinationNumbers.ConnectorOptions{
-			APIToken: "",
 		},
 	})
 

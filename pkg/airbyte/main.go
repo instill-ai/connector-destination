@@ -33,11 +33,10 @@ import (
 	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
 )
 
-//go:embed config/seed/destination_definitions.yaml
-var destinationDefinitionsYaml []byte
+const venderName = "airbyte"
 
-//go:embed config/seed/destination_specs.yaml
-var destinationSpecsYaml []byte
+//go:embed config/seed/definitions.json
+var destinationJson []byte
 
 var once sync.Once
 var connector base.IConnector
@@ -71,7 +70,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 		connDefs := []*connectorPB.DestinationConnectorDefinition{}
 
 		loader := configLoader.InitJSONSchema(logger)
-		loader.Load(destinationDefinitionsYaml, destinationSpecsYaml, &connDefs)
+		loader.Load(venderName, destinationJson, &connDefs)
 
 		dockerClient, err := dockerclient.NewClientWithOpts(dockerclient.FromEnv, dockerclient.WithAPIVersionNegotiation())
 		if err != nil {
@@ -108,7 +107,10 @@ func (c *Connector) PreDownloadImage(logger *zap.Logger) error {
 		if err != nil {
 			logger.Warn(err.Error())
 		}
-		imageName := fmt.Sprintf("%s:%s", connDefs[idx].GetConnectorDefinition().DockerRepository, connDefs[idx].GetConnectorDefinition().DockerImageTag)
+
+		imageName := fmt.Sprintf("%s:%s",
+			connDefs[idx].GetConnectorDefinition().VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
+			connDefs[idx].GetConnectorDefinition().VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
 		logger.Info(fmt.Sprintf("download %s", imageName))
 		out, err := c.dockerClient.ImagePull(context.Background(), imageName, types.ImagePullOptions{})
 		if err != nil {
@@ -204,7 +206,9 @@ func (con *Connection) Execute(input []*connectorPB.DataPayload) ([]*connectorPB
 	if err != nil {
 		return nil, err
 	}
-	imageName := fmt.Sprintf("%s:%s", connDef.GetConnectorDefinition().GetDockerRepository(), connDef.GetConnectorDefinition().GetDockerImageTag())
+	imageName := fmt.Sprintf("%s:%s",
+		connDef.GetConnectorDefinition().VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
+		connDef.GetConnectorDefinition().VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
 	containerName := fmt.Sprintf("%s.%d.write", con.defUid, time.Now().UnixNano())
 	configFileName := fmt.Sprintf("%s.%d.write", con.defUid, time.Now().UnixNano())
 	catalogFileName := fmt.Sprintf("%s.%d.write", con.defUid, time.Now().UnixNano())
@@ -369,7 +373,9 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 	if err != nil {
 		return connectorPB.Connector_STATE_UNSPECIFIED, err
 	}
-	imageName := fmt.Sprintf("%s:%s", def.GetConnectorDefinition().DockerRepository, def.GetConnectorDefinition().DockerImageTag)
+	imageName := fmt.Sprintf("%s:%s",
+		def.GetConnectorDefinition().VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
+		def.GetConnectorDefinition().VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
 	containerName := fmt.Sprintf("%s.%d.check", con.defUid, time.Now().UnixNano())
 	configFilePath := fmt.Sprintf("%s/connector-data/config/%s.json", con.connector.options.MountTargetVDP, containerName)
 
