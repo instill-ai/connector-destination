@@ -100,17 +100,20 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 	return connector
 }
 
-func (c *Connector) PreDownloadImage(logger *zap.Logger) error {
-	connDefs := c.ListConnectorDefinitions()
-	for idx := range connDefs {
-		err := connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
+func (c *Connector) PreDownloadImage(logger *zap.Logger, uids []uuid.UUID) error {
+	for _, uid := range uids {
+		connDef, err := c.GetConnectorDefinitionByUid(uid)
+		if err != nil {
+			logger.Warn(err.Error())
+		}
+		err = connector.AddConnectorDefinition(uuid.FromStringOrNil(connDef.GetUid()), connDef.GetId(), connDef)
 		if err != nil {
 			logger.Warn(err.Error())
 		}
 
 		imageName := fmt.Sprintf("%s:%s",
-			connDefs[idx].GetConnectorDefinition().VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
-			connDefs[idx].GetConnectorDefinition().VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
+			connDef.GetConnectorDefinition().VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
+			connDef.GetConnectorDefinition().VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
 		logger.Info(fmt.Sprintf("download %s", imageName))
 		out, err := c.dockerClient.ImagePull(context.Background(), imageName, types.ImagePullOptions{})
 		if err != nil {
