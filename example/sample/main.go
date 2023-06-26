@@ -5,7 +5,6 @@ import (
 
 	connectorDestination "github.com/instill-ai/connector-destination/pkg"
 	connectorDestinationAirbyte "github.com/instill-ai/connector-destination/pkg/airbyte"
-	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
 	"go.uber.org/zap"
 )
 
@@ -25,7 +24,7 @@ func main() {
 
 	// For apis: Get connector definitsion apis
 	for _, v := range connector.ListConnectorDefinitions() {
-		fmt.Println(v.(*connectorPB.DestinationConnectorDefinition).GetId())
+		fmt.Println(v)
 	}
 
 	// in connector-backend:

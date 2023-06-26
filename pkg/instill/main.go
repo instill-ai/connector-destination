@@ -36,10 +36,12 @@ type Connection struct {
 
 func Init(logger *zap.Logger) base.IConnector {
 	once.Do(func() {
-		connDefs := []*connectorPB.DestinationConnectorDefinition{}
-
 		loader := configLoader.InitJSONSchema(logger)
-		loader.Load(venderName, destinationJson, &connDefs)
+		connDefs, err := loader.Load(venderName, connectorPB.ConnectorType_CONNECTOR_TYPE_DESTINATION, destinationJson)
+
+		if err != nil {
+			panic(err)
+		}
 
 		connector = &Connector{
 			BaseConnector: base.BaseConnector{Logger: logger},
@@ -61,8 +63,8 @@ func (c *Connector) CreateConnection(defUid uuid.UUID, config *structpb.Struct, 
 	}, nil
 }
 
-func (con *Connection) Execute(input []*connectorPB.DataPayload) ([]*connectorPB.DataPayload, error) {
-	return input, nil
+func (con *Connection) Execute(inputs []*connectorPB.DataPayload) ([]*connectorPB.DataPayload, error) {
+	return inputs, nil
 }
 
 func (con *Connection) Test() (connectorPB.Connector_State, error) {
