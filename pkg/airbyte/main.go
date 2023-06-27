@@ -163,7 +163,7 @@ func (con *Connection) Execute(inputs []*connectorPB.DataPayload) ([]*connectorP
 	// TODO: should define new vdp_protocol for this
 	for idx, dataPayload := range inputs {
 
-		for modelName, taskOutput := range dataPayload.Json.GetFields() {
+		for modelName, taskOutput := range dataPayload.StructuredData.GetFields() {
 			b, err := protojson.MarshalOptions{
 				UseProtoNames:   true,
 				EmitUnpopulated: true,
