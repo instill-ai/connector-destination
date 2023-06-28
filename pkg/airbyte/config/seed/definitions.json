@@ -12,7 +12,7 @@
         "additionalProperties": false,
         "properties": {
           "access_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The Access Key ID of the AWS IAM Role to use for sending  messages",
             "examples": [
               "xxxxxHRNxxx3TBxxxxxx"
@@ -91,7 +91,7 @@
             "type": "string"
           },
           "secret_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The Secret Key of the AWS IAM Role to use for sending messages",
             "examples": [
               "hu+qE5exxxxT6o/ZrKsxxxxxxBhxxXLexxxxxVKz"
@@ -184,7 +184,7 @@
                     "type": "string"
                   },
                   "role_arn": {
-                    "airbyte_secret": false,
+                    "credential_field": false,
                     "description": "Will assume this role to write data to s3",
                     "title": "Target Role Arn",
                     "type": "string"
@@ -200,13 +200,13 @@
               {
                 "properties": {
                   "aws_access_key_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "AWS User Access Key Id",
                     "title": "Access Key Id",
                     "type": "string"
                   },
                   "aws_secret_access_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Secret Access Key",
                     "title": "Secret Access Key",
                     "type": "string"
@@ -435,7 +435,7 @@
         "additionalProperties": false,
         "properties": {
           "azure_blob_storage_account_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The Azure blob storage account key.",
             "examples": [
               "Z8ZkZpteggFx394vm+PJHnGTvdRncaYS+JhLKdj789YNmD+iyGTnG+PV+POiuYNhBg/ACS+LKjd%4FG3FHGN12Nd=="
@@ -601,7 +601,7 @@
             "type": "integer"
           },
           "credentials_json": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "always_show": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.com/integrations/destinations/bigquery#service-account-key\">docs</a> if you need help generating this key. Default credentials will be used if this field is left empty.",
             "order": 3,
@@ -692,7 +692,7 @@
                             "type": "string"
                           },
                           "hmac_key_access_id": {
-                            "airbyte_secret": true,
+                            "credential_field": true,
                             "description": "HMAC key access ID. When linked to a service account, this ID is 61 characters long; when linked to a user account, it is 24 characters long.",
                             "examples": [
                               "1234567890abcdefghij1234"
@@ -702,7 +702,7 @@
                             "type": "string"
                           },
                           "hmac_key_secret": {
-                            "airbyte_secret": true,
+                            "credential_field": true,
                             "description": "The corresponding secret for the access ID. It is a 40-character base-64 encoded string.",
                             "examples": [
                               "1234567890abcdefghij1234567890ABCDEFGHIJ"
@@ -861,7 +861,7 @@
             "type": "integer"
           },
           "credentials_json": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "always_show": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.com/integrations/destinations/bigquery#service-account-key\">docs</a> if you need help generating this key. Default credentials will be used if this field is left empty.",
             "order": 4,
@@ -950,7 +950,7 @@
                             "type": "string"
                           },
                           "hmac_key_access_id": {
-                            "airbyte_secret": true,
+                            "credential_field": true,
                             "description": "HMAC key access ID. When linked to a service account, this ID is 61 characters long; when linked to a user account, it is 24 characters long.",
                             "examples": [
                               "1234567890abcdefghij1234"
@@ -960,7 +960,7 @@
                             "type": "string"
                           },
                           "hmac_key_secret": {
-                            "airbyte_secret": true,
+                            "credential_field": true,
                             "description": "The corresponding secret for the access ID. It is a 40-character base-64 encoded string.",
                             "examples": [
                               "1234567890abcdefghij1234567890ABCDEFGHIJ"
@@ -1074,7 +1074,7 @@
     "tombstone": false,
     "uid": "22f6c74f-5699-40ff-833c-4a879ea40133",
     "vendorAttributes": {
-      "dockerImageTag": "1.4.4",
+      "dockerImageTag": "1.4.5",
       "dockerRepository": "airbyte/destination-bigquery",
       "githubIssueLabel": "destination-bigquery",
       "license": "MIT",
@@ -1147,7 +1147,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with Cassandra.",
             "order": 2,
             "title": "Password",
@@ -1244,7 +1244,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -1289,7 +1289,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -1369,7 +1369,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -1411,7 +1411,7 @@
     "tombstone": false,
     "uid": "ce0d828e-1dc4-496c-b122-2da42e637e48",
     "vendorAttributes": {
-      "dockerImageTag": "0.2.3",
+      "dockerImageTag": "0.2.5",
       "dockerRepository": "airbyte/destination-clickhouse",
       "githubIssueLabel": "destination-clickhouse",
       "license": "MIT",
@@ -1452,7 +1452,7 @@
         "additionalProperties": false,
         "properties": {
           "access_key": {
-            "airbyte_secret": "true",
+            "credential_field": "true",
             "description": "API access key used to send data to a Convex deployment.",
             "type": "string"
           },
@@ -1640,14 +1640,14 @@
             "type": "string"
           },
           "api_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "An API key generated in Cumul.io's platform (can be generated here: https://app.cumul.io/start/profile/integration).",
             "order": 1,
             "title": "Cumul.io API Key",
             "type": "string"
           },
           "api_token": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The corresponding API token generated in Cumul.io's platform (can be generated here: https://app.cumul.io/start/profile/integration).",
             "order": 2,
             "title": "Cumul.io API Token",
@@ -1714,7 +1714,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 6,
             "title": "Password",
@@ -1838,7 +1838,7 @@
                     "type": "string"
                   },
                   "s3_access_key_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "The Access Key Id granting allow one to access the above S3 staging bucket. Airbyte requires Read and Write permissions to the given bucket.",
                     "examples": [
                       "A012345678910EXAMPLE"
@@ -1901,7 +1901,7 @@
                     "type": "string"
                   },
                   "s3_secret_access_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "The corresponding secret to the above access key id.",
                     "examples": [
                       "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
@@ -1952,7 +1952,7 @@
                     "type": "string"
                   },
                   "azure_blob_storage_sas_token": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Shared access signature (SAS) token to grant limited access to objects in your storage account.",
                     "examples": [
                       "?sv=2016-05-31&ss=b&srt=sco&sp=rwdl&se=2018-06-27T10:05:50Z&st=2017-06-27T02:05:50Z&spr=https,http&sig=bgqQwoXwxzuD2GJfagRg7VOS8hzNr3QLT7rhS8OFRLQ%3D"
@@ -1996,7 +1996,7 @@
             "type": "string"
           },
           "databricks_personal_access_token": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Databricks Personal Access Token for making authenticated requests.",
             "examples": [
               "dapi0123456789abcdefghij0123456789AB"
@@ -2122,7 +2122,7 @@
             "type": "integer"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 5,
             "title": "Password",
@@ -2253,7 +2253,7 @@
         "additionalProperties": false,
         "properties": {
           "access_key_id": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The access key id to access the DynamoDB. Airbyte requires Read and Write permissions to the DynamoDB.",
             "examples": [
               "A012345678910EXAMPLE"
@@ -2313,7 +2313,7 @@
             "type": "string"
           },
           "secret_access_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The corresponding secret to the access key id.",
             "examples": [
               "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
@@ -2638,7 +2638,7 @@
                     "type": "string"
                   },
                   "apiKeySecret": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "The secret associated with the API Key ID.",
                     "title": "API Key Secret",
                     "type": "string"
@@ -2664,7 +2664,7 @@
                     "type": "string"
                   },
                   "password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Basic auth password to access a secure Elasticsearch server",
                     "title": "Password",
                     "type": "string"
@@ -2687,7 +2687,7 @@
             "type": "object"
           },
           "ca_certificate": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "CA certificate",
             "multiline": true,
             "title": "CA certificate",
@@ -2718,7 +2718,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -2798,7 +2798,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -2891,7 +2891,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -3013,13 +3013,13 @@
                 "additionalProperties": false,
                 "properties": {
                   "aws_key_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "AWS access key granting read and write access to S3.",
                     "title": "AWS Key ID",
                     "type": "string"
                   },
                   "aws_key_secret": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Corresponding secret part of the AWS Key",
                     "title": "AWS Key Secret",
                     "type": "string"
@@ -3056,7 +3056,7 @@
             "type": "object"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Firebolt password.",
             "order": 1,
             "title": "Password",
@@ -3121,7 +3121,7 @@
         "additionalProperties": false,
         "properties": {
           "credentials_json": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.io/integrations/destinations/firestore\">docs</a> if you need help generating this key. Default credentials will be used if this field is left empty.",
             "title": "Credentials JSON",
             "type": "string"
@@ -3189,7 +3189,7 @@
                     "type": "string"
                   },
                   "hmac_key_access_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "When linked to a service account, this ID is 61 characters long; when linked to a user account, it is 24 characters long. Read more <a href=\"https://cloud.google.com/storage/docs/authentication/hmackeys#overview\">here</a>.",
                     "examples": [
                       "1234567890abcdefghij1234"
@@ -3199,7 +3199,7 @@
                     "type": "string"
                   },
                   "hmac_key_secret": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "The corresponding secret for the access ID. It is a 40-character base-64 encoded string.  Read more <a href=\"https://cloud.google.com/storage/docs/authentication/hmackeys#secrets\">here</a>.",
                     "examples": [
                       "1234567890abcdefghij1234567890ABCDEFGHIJ"
@@ -3632,10 +3632,10 @@
     "tombstone": false,
     "uid": "ca8f6566-e555-4b40-943a-545bf123117a",
     "vendorAttributes": {
-      "dockerImageTag": "0.3.0",
+      "dockerImageTag": "0.4.0",
       "dockerRepository": "airbyte/destination-gcs",
       "githubIssueLabel": "destination-gcs",
-      "license": "MIT",
+      "license": "ELv2",
       "releaseStage": "beta",
       "resourceRequirements": {
         "jobSpecific": [
@@ -3680,19 +3680,19 @@
             "description": "Google API Credentials for connecting to Google Sheets and Google Drive APIs",
             "properties": {
               "client_id": {
-                "airbyte_secret": true,
+                "credential_field": true,
                 "description": "The Client ID of your Google Sheets developer application.",
                 "title": "Client ID",
                 "type": "string"
               },
               "client_secret": {
-                "airbyte_secret": true,
+                "credential_field": true,
                 "description": "The Client Secret of your Google Sheets developer application.",
                 "title": "Client Secret",
                 "type": "string"
               },
               "refresh_token": {
-                "airbyte_secret": true,
+                "credential_field": true,
                 "description": "The token for obtaining new access token.",
                 "title": "Refresh Token",
                 "type": "string"
@@ -3728,10 +3728,10 @@
     "tombstone": false,
     "uid": "a4cbd2d1-8dbe-4818-b8bc-b90ad782d12a",
     "vendorAttributes": {
-      "dockerImageTag": "0.1.2",
+      "dockerImageTag": "0.2.1",
       "dockerRepository": "airbyte/destination-google-sheets",
       "githubIssueLabel": "destination-google-sheets",
-      "license": "MIT",
+      "license": "ELv2",
       "releaseStage": "alpha",
       "resourceRequirements": {},
       "sourceType": "api",
@@ -3762,9 +3762,7 @@
           "append",
           "append_dedup"
         ],
-        "supportsDBT": false,
-        "supportsIncremental": true,
-        "supportsNormalization": false
+        "supportsIncremental": true
       },
       "tags": [
         "language:python"
@@ -3889,7 +3887,7 @@
                     "type": "string"
                   },
                   "password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Password associated with the username.",
                     "order": 4,
                     "title": "Password",
@@ -3969,7 +3967,7 @@
                 "description": "S3 object storage",
                 "properties": {
                   "access_key_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "The access key ID to access the S3 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>.",
                     "examples": [
                       "A012345678910EXAMPLE"
@@ -4045,7 +4043,7 @@
                     "type": "string"
                   },
                   "secret_access_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "The corresponding secret to the access key ID. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>",
                     "examples": [
                       "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
@@ -4258,7 +4256,7 @@
               {
                 "properties": {
                   "sasl_jaas_config": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "default": "",
                     "description": "JAAS login context parameters for SASL connections in the format used by JAAS configuration files.",
                     "title": "SASL JAAS Config",
@@ -4291,7 +4289,7 @@
               {
                 "properties": {
                   "sasl_jaas_config": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "default": "",
                     "description": "JAAS login context parameters for SASL connections in the format used by JAAS configuration files.",
                     "title": "SASL JAAS Config",
@@ -4465,7 +4463,7 @@
         "additionalProperties": false,
         "properties": {
           "api_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "To get Keen Master API Key, navigate to the Access tab from the left-hand, side panel and check the Project Details section.",
             "examples": [
               "ABCDEFGHIJKLMNOPRSTUWXYZ"
@@ -4535,7 +4533,7 @@
         "additionalProperties": true,
         "properties": {
           "accessKey": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Generate the AWS Access Key for current user.",
             "order": 3,
             "title": "Access Key",
@@ -4560,7 +4558,7 @@
             "type": "string"
           },
           "privateKey": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The AWS Private Key - a string of numbers and letters that are unique for each account, also known as a \"recovery phrase\".",
             "order": 4,
             "title": "Private Key",
@@ -4705,7 +4703,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The Password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -4743,7 +4741,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -4823,7 +4821,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -4899,7 +4897,7 @@
         "additionalProperties": false,
         "properties": {
           "api_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "MeiliSearch API Key. See the <a href=\"https://docs.airbyte.com/integrations/destinations/meilisearch\">docs</a> for more information on how to obtain this key.",
             "order": 1,
             "title": "API Key",
@@ -4981,7 +4979,7 @@
                     "type": "string"
                   },
                   "password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Password associated with the username.",
                     "order": 2,
                     "title": "Password",
@@ -5135,7 +5133,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -5215,7 +5213,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -5335,7 +5333,7 @@
             "type": "boolean"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password to use for the connection.",
             "title": "Password",
             "type": "string"
@@ -5446,7 +5444,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The password associated with this username.",
             "order": 5,
             "title": "Password",
@@ -5564,7 +5562,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -5644,7 +5642,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -5687,7 +5685,7 @@
     "tombstone": false,
     "uid": "d4353156-9217-4cad-8dd7-c108fd4f74cf",
     "vendorAttributes": {
-      "dockerImageTag": "0.1.24",
+      "dockerImageTag": "0.1.25",
       "dockerRepository": "airbyte/destination-mssql",
       "githubIssueLabel": "destination-mssql",
       "license": "MIT",
@@ -5746,7 +5744,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -5791,7 +5789,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -5871,7 +5869,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -6012,7 +6010,7 @@
                     "type": "string"
                   },
                   "ssl_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Privacy Enhanced Mail (PEM) files are concatenated certificate containers frequently used in certificate installations.",
                     "multiline": true,
                     "title": "SSL PEM file",
@@ -6043,7 +6041,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -6097,7 +6095,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -6177,7 +6175,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -6277,7 +6275,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 5,
             "title": "Password",
@@ -6396,7 +6394,7 @@
                 "description": "Verify-ca SSL mode.",
                 "properties": {
                   "ca_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "CA certificate",
                     "multiline": true,
                     "order": 1,
@@ -6404,7 +6402,7 @@
                     "type": "string"
                   },
                   "client_key_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Password for keystorage. This field is optional. If you do not add it - the password will be generated automatically.",
                     "order": 4,
                     "title": "Client key password",
@@ -6431,7 +6429,7 @@
                 "description": "Verify-full SSL mode.",
                 "properties": {
                   "ca_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "CA certificate",
                     "multiline": true,
                     "order": 1,
@@ -6439,7 +6437,7 @@
                     "type": "string"
                   },
                   "client_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Client certificate",
                     "multiline": true,
                     "order": 2,
@@ -6447,7 +6445,7 @@
                     "type": "string"
                   },
                   "client_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Client key",
                     "multiline": true,
                     "order": 3,
@@ -6455,7 +6453,7 @@
                     "type": "string"
                   },
                   "client_key_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Password for keystorage. This field is optional. If you do not add it - the password will be generated automatically.",
                     "order": 4,
                     "title": "Client key password",
@@ -6504,7 +6502,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -6584,7 +6582,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -6695,7 +6693,7 @@
             "type": "integer"
           },
           "credentials_json": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.com/integrations/destinations/pubsub\">docs</a> if you need help generating this key.",
             "title": "Credentials JSON",
             "type": "string"
@@ -6951,7 +6949,7 @@
         "$schema": "http://json-schema.org/draft-07/schema#",
         "properties": {
           "access_key_id": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The access key ID to access the R2 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://developers.cloudflare.com/r2/platform/s3-compatibility/tokens/\">here</a>.",
             "examples": [
               "A012345678910EXAMPLE"
@@ -7280,7 +7278,7 @@
             "type": "string"
           },
           "secret_access_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The corresponding secret to the access key ID. Read more <a href=\"https://developers.cloudflare.com/r2/platform/s3-compatibility/tokens/\">here</a>",
             "examples": [
               "a012345678910ABCDEFGHAbCdEfGhEXAMPLEKEY"
@@ -7349,7 +7347,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The password to connect.",
             "title": "Password",
             "type": "string"
@@ -7441,7 +7439,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with Redis.",
             "order": 4,
             "title": "Password",
@@ -7490,7 +7488,7 @@
                 "description": "Verify-full SSL mode.",
                 "properties": {
                   "ca_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "CA certificate",
                     "multiline": true,
                     "order": 1,
@@ -7498,7 +7496,7 @@
                     "type": "string"
                   },
                   "client_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Client certificate",
                     "multiline": true,
                     "order": 2,
@@ -7506,7 +7504,7 @@
                     "type": "string"
                   },
                   "client_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Client key",
                     "multiline": true,
                     "order": 3,
@@ -7514,7 +7512,7 @@
                     "type": "string"
                   },
                   "client_key_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Password for keystorage. If you do not add it - the password will be generated automatically.",
                     "order": 4,
                     "title": "Client key password",
@@ -7563,7 +7561,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -7643,7 +7641,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -7860,7 +7858,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -7908,7 +7906,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -7988,7 +7986,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -8026,7 +8024,7 @@
               {
                 "properties": {
                   "access_key_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "This ID grants access to the above S3 staging bucket. Airbyte requires Read and Write permissions to the given bucket. See <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">AWS docs</a> on how to generate an access key ID and secret access key.",
                     "title": "S3 Key Id",
                     "type": "string"
@@ -8067,7 +8065,7 @@
                             "type": "string"
                           },
                           "key_encrypting_key": {
-                            "airbyte_secret": true,
+                            "credential_field": true,
                             "description": "The key, base64-encoded. Must be either 128, 192, or 256 bits. Leave blank to have Airbyte generate an ephemeral key for each sync.",
                             "title": "Key",
                             "type": "string"
@@ -8166,7 +8164,7 @@
                     "type": "string"
                   },
                   "secret_access_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "The corresponding secret to the above access key id. See <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">AWS docs</a> on how to generate an access key ID and secret access key.",
                     "title": "S3 Access Key",
                     "type": "string"
@@ -8210,7 +8208,7 @@
     "tombstone": false,
     "uid": "f7a7d195-377f-cf5b-70a5-be6b819019dc",
     "vendorAttributes": {
-      "dockerImageTag": "0.4.8",
+      "dockerImageTag": "0.4.9",
       "dockerRepository": "airbyte/destination-redshift",
       "githubIssueLabel": "destination-redshift",
       "license": "MIT",
@@ -8259,14 +8257,14 @@
         "additionalProperties": false,
         "properties": {
           "api_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Rockset api key",
             "order": 0,
             "title": "Api Key",
             "type": "string"
           },
           "api_server": {
-            "airbyte_secret": false,
+            "credential_field": false,
             "default": "https://api.rs2.usw2.rockset.com",
             "description": "Rockset api URL",
             "order": 2,
@@ -8275,7 +8273,7 @@
             "type": "string"
           },
           "workspace": {
-            "airbyte_secret": false,
+            "credential_field": false,
             "default": "commons",
             "description": "The Rockset workspace in which collections will be created + written to.",
             "examples": [
@@ -8333,7 +8331,7 @@
         "$schema": "http://json-schema.org/draft-07/schema#",
         "properties": {
           "access_key_id": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The access key ID to access the S3 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>.",
             "examples": [
               "A012345678910EXAMPLE"
@@ -8515,7 +8513,7 @@
             "type": "string"
           },
           "secret_access_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The corresponding secret to the access key ID. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>",
             "examples": [
               "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
@@ -8575,7 +8573,7 @@
         "$schema": "http://json-schema.org/draft-07/schema#",
         "properties": {
           "access_key_id": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The access key ID to access the S3 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>.",
             "examples": [
               "A012345678910EXAMPLE"
@@ -9023,7 +9021,7 @@
             "type": "string"
           },
           "secret_access_key": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The corresponding secret to the access key ID. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>",
             "examples": [
               "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
@@ -9048,10 +9046,10 @@
     "tombstone": false,
     "uid": "4816b78f-1489-44c1-9060-4b19d5fa9362",
     "vendorAttributes": {
-      "dockerImageTag": "0.4.1",
+      "dockerImageTag": "0.5.1",
       "dockerRepository": "airbyte/destination-s3",
       "githubIssueLabel": "destination-s3",
-      "license": "MIT",
+      "license": "ELv2",
       "releaseStage": "generally_available",
       "resourceRequirements": {
         "jobSpecific": [
@@ -9104,7 +9102,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with Scylla.",
             "order": 2,
             "title": "Password",
@@ -9206,7 +9204,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -9285,7 +9283,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 3,
             "title": "Password",
@@ -9365,7 +9363,7 @@
                 "order": 0,
                 "properties": {
                   "access_token": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter you application's Access Token",
                     "title": "Access Token",
                     "type": "string"
@@ -9380,19 +9378,19 @@
                     "type": "string"
                   },
                   "client_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter your application's Client ID",
                     "title": "Client ID",
                     "type": "string"
                   },
                   "client_secret": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter your application's Client secret",
                     "title": "Client Secret",
                     "type": "string"
                   },
                   "refresh_token": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter your application's Refresh Token",
                     "title": "Refresh Token",
                     "type": "string"
@@ -9418,14 +9416,14 @@
                     "type": "string"
                   },
                   "private_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "RSA Private key to use for Snowflake connection. See the <a href=\"https://docs.airbyte.com/integrations/destinations/snowflake\">docs</a> for more information on how to obtain this key.",
                     "multiline": true,
                     "title": "Private Key",
                     "type": "string"
                   },
                   "private_key_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Passphrase for private key",
                     "title": "Passphrase",
                     "type": "string"
@@ -9450,7 +9448,7 @@
                     "type": "string"
                   },
                   "password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter the password associated with the username.",
                     "order": 1,
                     "title": "Password",
@@ -9550,7 +9548,7 @@
                 "description": "Recommended for large production workloads for better speed and scalability.",
                 "properties": {
                   "access_key_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter your <a href=\"https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html\">AWS access key ID</a>. Airbyte requires Read and Write permissions on your S3 bucket ",
                     "order": 3,
                     "title": "AWS access key ID",
@@ -9592,7 +9590,7 @@
                             "type": "string"
                           },
                           "key_encrypting_key": {
-                            "airbyte_secret": true,
+                            "credential_field": true,
                             "description": "The key, base64-encoded. Must be either 128, 192, or 256 bits. Leave blank to have Airbyte generate an ephemeral key for each sync.",
                             "title": "Key",
                             "type": "string"
@@ -9682,7 +9680,7 @@
                     "type": "string"
                   },
                   "secret_access_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter your <a href=\"https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html\">AWS secret access key</a>",
                     "order": 4,
                     "title": "AWS secret access key",
@@ -9710,7 +9708,7 @@
                     "type": "string"
                   },
                   "credentials_json": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Enter your <a href=\"https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating_service_account_keys\">Google Cloud service account key</a> in the JSON format with read/write access to your Cloud Storage staging bucket",
                     "multiline": true,
                     "order": 3,
@@ -9804,7 +9802,7 @@
     "tombstone": false,
     "uid": "424892c4-daac-4491-b35d-c6688ba547ba",
     "vendorAttributes": {
-      "dockerImageTag": "1.0.5",
+      "dockerImageTag": "1.0.6",
       "dockerRepository": "airbyte/destination-snowflake",
       "githubIssueLabel": "destination-snowflake",
       "license": "MIT",
@@ -9819,8 +9817,8 @@
           {
             "jobType": "sync",
             "resourceRequirements": {
-              "memory_limit": "1Gi",
-              "memory_request": "1Gi"
+              "memory_limit": "2Gi",
+              "memory_request": "2Gi"
             }
           }
         ]
@@ -10001,7 +9999,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Starburst Galaxy password for the specified user.",
             "examples": [
               "password"
@@ -10050,7 +10048,7 @@
                     "type": "string"
                   },
                   "s3_access_key_id": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Access key with access to the bucket. Airbyte requires read and write permissions to a given bucket.",
                     "examples": [
                       "A012345678910EXAMPLE"
@@ -10099,7 +10097,7 @@
                     "type": "string"
                   },
                   "s3_secret_access_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Secret key used with the specified access key.",
                     "examples": [
                       "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
@@ -10197,7 +10195,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 2,
             "title": "Password",
@@ -10313,7 +10311,7 @@
                     "type": "string"
                   },
                   "ssl_ca_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Specifies the file name of a PEM file that contains Certificate Authority (CA) certificates for use with SSLMODE=verify-ca.\n See more information - <a href=\"https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/jdbcug_chapter_2.html#URL_SSLCA\"> in the docs</a>.",
                     "multiline": true,
                     "order": 1,
@@ -10341,7 +10339,7 @@
                     "type": "string"
                   },
                   "ssl_ca_certificate": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "Specifies the file name of a PEM file that contains Certificate Authority (CA) certificates for use with SSLMODE=verify-full.\n See more information - <a href=\"https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/jdbcug_chapter_2.html#URL_SSLCA\"> in the docs</a>.",
                     "multiline": true,
                     "order": 1,
@@ -10432,7 +10430,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "default": "",
             "description": "Password associated with the username.",
             "order": 4,
@@ -10478,7 +10476,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -10558,7 +10556,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -10600,7 +10598,7 @@
     "tombstone": false,
     "uid": "06ec60c7-7468-45c0-91ac-174f6e1a788b",
     "vendorAttributes": {
-      "dockerImageTag": "0.1.3",
+      "dockerImageTag": "0.1.4",
       "dockerRepository": "airbyte/destination-tidb",
       "githubIssueLabel": "destination-tidb",
       "license": "MIT",
@@ -10641,7 +10639,7 @@
         "additionalProperties": false,
         "properties": {
           "apikey": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Personal API key",
             "order": 1,
             "title": "API key",
@@ -10800,7 +10798,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password associated with the username.",
             "order": 4,
             "title": "Password",
@@ -10844,7 +10842,7 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
                     "multiline": true,
                     "order": 4,
@@ -10924,7 +10922,7 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "airbyte_secret": true,
+                    "credential_field": true,
                     "description": "OS-level password for logging into the jump server host",
                     "order": 4,
                     "title": "Password",
@@ -11013,7 +11011,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "Password used with OIDC authentication",
             "type": "string"
           },
@@ -11087,6 +11085,7 @@
         "additionalProperties": true,
         "properties": {
           "api_key": {
+            "credential_field": true,
             "description": "API Key to connect.",
             "order": 0,
             "title": "API Key",
@@ -11113,7 +11112,7 @@
     "tombstone": false,
     "uid": "2a51c92d-0fb4-4e54-94d2-cce631f24d1f",
     "vendorAttributes": {
-      "dockerImageTag": "0.1.0",
+      "dockerImageTag": "0.1.1",
       "dockerRepository": "airbyte/destination-xata",
       "githubIssueLabel": "destination-xata",
       "license": "MIT",
@@ -11162,7 +11161,7 @@
             "type": "string"
           },
           "password": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "The Password associated with the username.",
             "order": 5,
             "title": "Password",
@@ -11247,7 +11246,7 @@
         "additionalProperties": false,
         "properties": {
           "privateKey": {
-            "airbyte_secret": true,
+            "credential_field": true,
             "description": "You private key on Streamr",
             "type": "string"
           },
