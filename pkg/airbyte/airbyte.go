@@ -1,17 +1,14 @@
 package airbyte
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/ghodss/yaml"
 	"github.com/santhosh-tekuri/jsonschema/v5"
 	"go.uber.org/zap"
-	"google.golang.org/protobuf/encoding/protojson"
-
-	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
 
 // AirbyteMessage defines the AirbyteMessage protocol  as in
@@ -65,7 +62,28 @@ type ConfiguredAirbyteStream struct {
 // TaskOutputAirbyteCatalog stores the pre-defined task AirbyteCatalog
 var TaskOutputAirbyteCatalog AirbyteCatalog
 
-var sch *jsonschema.Schema
+// TODO: add this in vdp_protocol
+const dataSchema = `
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"data_mapping_index": {
+			"type": "string"
+		},
+		"texts": {
+			"type": "array"
+		},
+		"structured_data": {
+			"type": "object"
+		},
+		"metadata": {
+			"type": "object"
+		}
+	},
+	"required": ["data_mapping_index"]
+}
+`
 
 // InitAirbyteCatalog reads all task AirbyteCatalog files and stores the JSON content in the global TaskAirbyteCatalog variable
 func InitAirbyteCatalog(logger *zap.Logger, vdpProtocolPath string) {
@@ -82,12 +100,12 @@ func InitAirbyteCatalog(logger *zap.Logger, vdpProtocolPath string) {
 
 	compiler := jsonschema.NewCompiler()
 
-	err = compiler.AddResource("vdp_protocol.json", bytes.NewReader(jsonSchemaBytes))
+	err = compiler.AddResource("protocol.json", strings.NewReader(dataSchema))
 	if err != nil {
 		logger.Fatal(fmt.Sprintf("%#v\n", err.Error()))
 	}
 
-	sch, err = compiler.Compile("vdp_protocol.json")
+	_, err = compiler.Compile("protocol.json")
 	if err != nil {
 		logger.Fatal(fmt.Sprintf("%#v\n", err.Error()))
 	}
@@ -102,42 +120,4 @@ func InitAirbyteCatalog(logger *zap.Logger, vdpProtocolPath string) {
 		},
 	}
 
-}
-
-// ValidateAirbyteCatalog validates the TaskAirbyteCatalog's JSON schema given the task type and the batch data (i.e., the output from model-backend trigger)
-func ValidateAirbyteCatalog(taskOutputs []*pipelinePB.TaskOutput) error {
-
-	// Check each element in the batch
-	for idx, taskOutput := range taskOutputs {
-
-		b, err := protojson.MarshalOptions{
-			UseProtoNames:   true,
-			EmitUnpopulated: true,
-		}.Marshal(taskOutput)
-
-		if err != nil {
-			return fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-		}
-
-		var v interface{}
-		if err := json.Unmarshal(b, &v); err != nil {
-			return fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-		}
-
-		if err = sch.Validate(v); err != nil {
-			switch e := err.(type) {
-			case *jsonschema.ValidationError:
-				b, err := json.MarshalIndent(e.DetailedOutput(), "", "  ")
-				if err != nil {
-					return fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-				}
-				return fmt.Errorf("task_outputs[%d] error: %s", idx, string(b))
-			case jsonschema.InvalidJSONTypeError:
-				return fmt.Errorf("task_outputs[%d] error: %w", idx, e)
-			default:
-				return fmt.Errorf("task_outputs[%d] error: %w", idx, e)
-			}
-		}
-	}
-	return nil
 }
