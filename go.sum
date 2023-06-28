@@ -1,5 +1,3 @@
-cloud.google.com/go/longrunning v0.4.1 h1:v+yFJOfKC3yZdY6ZUI933pIYdhyhV8S3NpWrXWmg7jM=
-cloud.google.com/go/longrunning v0.4.1/go.mod h1:4iWDqhBZ70CvZ6BfETbvam3T8FMvLK+eFj0E6AaRQTo=
 github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 h1:UQHMgLO+TxOElx5B5HZ4hJQsoJ/PvUvKRhJHDQXO8P8=
 github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migciow=
 github.com/Microsoft/go-winio v0.6.1/go.mod h1:LRdKpFKfdobln8UmuiYcKPot9D2v6svN5+sAH+4kjUM=
@@ -29,10 +27,10 @@ github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 h1:gDLXvp5S9izjldquuoAhDzccbskOL6tDC5jMSyx3zxE=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2/go.mod h1:7pdNwVWBBHGiCxa9lAszqCJMbfTISJ7oMftp8+UGV08=
-github.com/instill-ai/connector v0.0.0-20230627145616-46d38fd71ac8 h1:mdZGyOMLFMNKsyWlat1e5QUUL1KsC1zN9HYZw+S5UKk=
-github.com/instill-ai/connector v0.0.0-20230627145616-46d38fd71ac8/go.mod h1:IqLjZ5zc854JeCXM4cz6jlbZeM0n5qgqkMO1qj6Xekk=
-github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230627140850-cfd958552c23 h1:KiCIryxQb22byMZj9fQCiAO5L1M+N/LU6BaL121Toy4=
-github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230627140850-cfd958552c23/go.mod h1:qsq5ecnA1xi2rLnVQFo/9xksA7I7wQu8c7rqM5xbIrQ=
+github.com/instill-ai/connector v0.0.0-20230628152420-4adf6bedec28 h1:jgpEZiIZC+jJ7VZgibTg6eb+58a40mNPYp3RSiPR2VQ=
+github.com/instill-ai/connector v0.0.0-20230628152420-4adf6bedec28/go.mod h1:ctro5UDPVoLV7Toi6/cOar0JpYKtabvpXWmjtrXbce4=
+github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230628145744-8bd74278dff2 h1:e8AG+hOq2FkIz2IRq+lEJBWKY3BhzgpmjOTHVVMBEcY=
+github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230628145744-8bd74278dff2/go.mod h1:qsq5ecnA1xi2rLnVQFo/9xksA7I7wQu8c7rqM5xbIrQ=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/kr/pretty v0.2.0 h1:s5hAObm+yFO5uHYt5dYjxi2rXrsnmRpJx4OYvIWUaQs=

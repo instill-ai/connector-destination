@@ -7,15 +7,14 @@ require (
 	github.com/docker/docker v24.0.2+incompatible
 	github.com/ghodss/yaml v1.0.0
 	github.com/gofrs/uuid v4.4.0+incompatible
-	github.com/instill-ai/connector v0.0.0-20230627145616-46d38fd71ac8
-	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230627140850-cfd958552c23
+	github.com/instill-ai/connector v0.0.0-20230628152420-4adf6bedec28
+	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230628145744-8bd74278dff2
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.0
 	go.uber.org/zap v1.24.0
 	google.golang.org/protobuf v1.30.0
 )
 
 require (
-	cloud.google.com/go/longrunning v0.4.1 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/docker/distribution v2.8.2+incompatible // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
