@@ -163,45 +163,27 @@ func (con *Connection) Execute(inputs []*connectorPB.DataPayload) ([]*connectorP
 	// TODO: should define new vdp_protocol for this
 	for idx, dataPayload := range inputs {
 
-		for modelName, taskOutput := range dataPayload.StructuredData.GetFields() {
-			b, err := protojson.MarshalOptions{
-				UseProtoNames:   true,
-				EmitUnpopulated: true,
-			}.Marshal(taskOutput)
-			if err != nil {
-				return nil, fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-			}
+		dataPayload.Images = nil
 
-			dataStruct := structpb.Struct{}
-			err = protojson.Unmarshal(b, &dataStruct)
-			if err != nil {
-				return nil, fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-			}
-			dataStruct.GetFields()["index"] = structpb.NewStringValue(dataPayload.DataMappingIndex)
-			dataStruct.GetFields()["model"] = structpb.NewStringValue(modelName)
-			dataStruct.GetFields()["pipeline"] = dataPayload.GetMetadata().GetFields()["pipeline"]
-
-			b, err = protojson.Marshal(&dataStruct)
-			if err != nil {
-				return nil, fmt.Errorf("task_outputs[%d] error: %w", idx, err)
-			}
-
-			abMsg := AirbyteMessage{}
-			abMsg.Type = "RECORD"
-			abMsg.Record = &AirbyteRecordMessage{
-				Stream:    TaskOutputAirbyteCatalog.Streams[0].Name,
-				Data:      b,
-				EmittedAt: time.Now().UnixMilli(),
-			}
-
-			b, err = json.Marshal(&abMsg)
-			if err != nil {
-				return nil, fmt.Errorf("Marshal AirbyteMessage error: %w", err)
-			}
-			b = []byte(string(b) + "\n")
-			byteAbMsgs = append(byteAbMsgs, b...)
+		b, err := protojson.MarshalOptions{
+			UseProtoNames: true,
+		}.Marshal(dataPayload)
+		if err != nil {
+			return nil, fmt.Errorf("DataPayload [%d] error: %w", idx, err)
 		}
-
+		abMsg := AirbyteMessage{}
+		abMsg.Type = "RECORD"
+		abMsg.Record = &AirbyteRecordMessage{
+			Stream:    TaskOutputAirbyteCatalog.Streams[0].Name,
+			Data:      b,
+			EmittedAt: time.Now().UnixMilli(),
+		}
+		b, err = json.Marshal(&abMsg)
+		if err != nil {
+			return nil, fmt.Errorf("marshal AirbyteMessage error: %w", err)
+		}
+		b = []byte(string(b) + "\n")
+		byteAbMsgs = append(byteAbMsgs, b...)
 	}
 
 	// Remove the last "\n"
