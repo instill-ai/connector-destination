@@ -48,16 +48,9 @@ for idx in range(len(definitions)):
     for key in definitions[idx].keys():
         # print(key)
         name_set.add(key)
-    # # if 'spec' in definitions[idx]:
-    # for key in definitions[idx]['spec'].keys():
-    #     # print(key)
-    #     name_set.add(key)
 
-print(name_set)
-
-
-
-
+definitions_json = json.dumps(definitions, indent=2, sort_keys=True)
+definitions_json = definitions_json.replace("airbyte_secret", "credential_field")
 
 with open('./seed/definitions.json', 'w') as out_file:
-    json.dump(definitions, out_file, indent=2, sort_keys=True)
+    out_file.write(definitions_json)
