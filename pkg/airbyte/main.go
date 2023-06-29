@@ -33,7 +33,7 @@ import (
 	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
 )
 
-const venderName = "airbyte"
+const vendorName = "airbyte"
 
 //go:embed config/seed/definitions.json
 var destinationJson []byte
@@ -69,7 +69,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 	once.Do(func() {
 
 		loader := configLoader.InitJSONSchema(logger)
-		connDefs, err := loader.Load(venderName, connectorPB.ConnectorType_CONNECTOR_TYPE_DESTINATION, destinationJson)
+		connDefs, err := loader.Load(vendorName, connectorPB.ConnectorType_CONNECTOR_TYPE_DESTINATION, destinationJson)
 		if err != nil {
 			panic(err)
 		}

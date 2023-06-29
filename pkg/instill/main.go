@@ -17,7 +17,7 @@ import (
 
 // Note: this is a dummy connector
 
-const venderName = "instill"
+const vendorName = "instill"
 
 //go:embed config/seed/definitions.json
 var destinationJson []byte
@@ -37,7 +37,7 @@ type Connection struct {
 func Init(logger *zap.Logger) base.IConnector {
 	once.Do(func() {
 		loader := configLoader.InitJSONSchema(logger)
-		connDefs, err := loader.Load(venderName, connectorPB.ConnectorType_CONNECTOR_TYPE_DESTINATION, destinationJson)
+		connDefs, err := loader.Load(vendorName, connectorPB.ConnectorType_CONNECTOR_TYPE_DESTINATION, destinationJson)
 
 		if err != nil {
 			panic(err)
