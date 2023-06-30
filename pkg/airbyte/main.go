@@ -351,7 +351,14 @@ func (con *Connection) Execute(inputs []*connectorPB.DataPayload) ([]*connectorP
 	if err := con.connector.cache.Delete(containerName); err != nil {
 		con.Logger.Error(err.Error())
 	}
-	return nil, nil
+
+	outputs := []*connectorPB.DataPayload{}
+	for idx := range inputs {
+		outputs = append(outputs, &connectorPB.DataPayload{
+			DataMappingIndex: inputs[idx].DataMappingIndex,
+		})
+	}
+	return outputs, nil
 }
 
 func (con *Connection) Test() (connectorPB.Connector_State, error) {
