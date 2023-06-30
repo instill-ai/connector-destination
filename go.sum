@@ -33,6 +33,8 @@ github.com/instill-ai/connector v0.0.0-20230628152420-4adf6bedec28 h1:jgpEZiIZC+
 github.com/instill-ai/connector v0.0.0-20230628152420-4adf6bedec28/go.mod h1:ctro5UDPVoLV7Toi6/cOar0JpYKtabvpXWmjtrXbce4=
 github.com/instill-ai/connector v0.0.0-20230629151544-f181ade74915 h1:mqfgPz3W9zoZ60nIjSCbJBRnAolT14ZBega2zP+3M/s=
 github.com/instill-ai/connector v0.0.0-20230629151544-f181ade74915/go.mod h1:ctro5UDPVoLV7Toi6/cOar0JpYKtabvpXWmjtrXbce4=
+github.com/instill-ai/connector v0.0.0-20230630174544-1dc5a502a437 h1:7vxtzKS/38R6jy+ax8yCZUL8e8AkNE+i+9viPF89c20=
+github.com/instill-ai/connector v0.0.0-20230630174544-1dc5a502a437/go.mod h1:ctro5UDPVoLV7Toi6/cOar0JpYKtabvpXWmjtrXbce4=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230628145744-8bd74278dff2 h1:e8AG+hOq2FkIz2IRq+lEJBWKY3BhzgpmjOTHVVMBEcY=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20230628145744-8bd74278dff2/go.mod h1:qsq5ecnA1xi2rLnVQFo/9xksA7I7wQu8c7rqM5xbIrQ=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=

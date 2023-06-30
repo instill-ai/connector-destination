@@ -71,3 +71,7 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 	// Always connected
 	return connectorPB.Connector_STATE_CONNECTED, nil
 }
+
+func (con *Connection) GetTaskName() (string, error) {
+	return "TASK_UNSPECIFIED", nil
+}
