@@ -365,7 +365,7 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 
 	def, err := con.connector.GetConnectorDefinitionByUid(con.defUid)
 	if err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 	imageName := fmt.Sprintf("%s:%s",
 		def.VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
@@ -375,7 +375,7 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 
 	// Write config into a container local file
 	if err := os.MkdirAll(filepath.Dir(configFilePath), os.ModePerm); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, fmt.Errorf(fmt.Sprintf("unable to create folders for filepath %s", configFilePath), "WriteContainerLocalFileError", err)
+		return connectorPB.Connector_STATE_ERROR, fmt.Errorf(fmt.Sprintf("unable to create folders for filepath %s", configFilePath), "WriteContainerLocalFileError", err)
 	}
 
 	configuration := func() []byte {
@@ -390,7 +390,7 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 	}()
 
 	if err := os.WriteFile(configFilePath, configuration, 0644); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, fmt.Errorf(fmt.Sprintf("unable to write connector config file %s", configFilePath), "WriteContainerLocalFileError", err)
+		return connectorPB.Connector_STATE_ERROR, fmt.Errorf(fmt.Sprintf("unable to write connector config file %s", configFilePath), "WriteContainerLocalFileError", err)
 	}
 
 	defer func() {
@@ -404,12 +404,12 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 
 	out, err := con.connector.dockerClient.ImagePull(context.Background(), imageName, types.ImagePullOptions{})
 	if err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 	defer out.Close()
 
 	if _, err := io.Copy(os.Stdout, out); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 
 	resp, err := con.connector.dockerClient.ContainerCreate(context.Background(),
@@ -438,18 +438,18 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 		},
 		nil, nil, containerName)
 	if err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 
 	if err := con.connector.dockerClient.ContainerStart(context.Background(), resp.ID, types.ContainerStartOptions{}); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 
 	statusCh, errCh := con.connector.dockerClient.ContainerWait(context.Background(), resp.ID, container.WaitConditionNotRunning)
 	select {
 	case err := <-errCh:
 		if err != nil {
-			return connectorPB.Connector_STATE_UNSPECIFIED, err
+			return connectorPB.Connector_STATE_ERROR, err
 		}
 	case <-statusCh:
 	}
@@ -460,7 +460,7 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 			ShowStdout: true,
 		},
 	); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 
 	if err := con.connector.dockerClient.ContainerRemove(context.Background(), containerName,
@@ -468,12 +468,12 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 			RemoveVolumes: true,
 			Force:         true,
 		}); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 
 	var bufStdOut, bufStdErr bytes.Buffer
 	if _, err := stdcopy.StdCopy(&bufStdOut, &bufStdErr, out); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 
 	var teeStdOut io.Reader = strings.NewReader(bufStdOut.String())
@@ -483,10 +483,10 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 
 	var byteStdOut, byteStdErr []byte
 	if byteStdOut, err = io.ReadAll(teeStdOut); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 	if byteStdErr, err = io.ReadAll(teeStdErr); err != nil {
-		return connectorPB.Connector_STATE_UNSPECIFIED, err
+		return connectorPB.Connector_STATE_ERROR, err
 	}
 
 	con.Logger.Info(fmt.Sprintf("ImageName, %s, ContainerName, %s, STDOUT, %v, STDERR, %v", imageName, containerName, byteStdOut, byteStdErr))
@@ -495,7 +495,7 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 	for scanner.Scan() {
 
 		if err := scanner.Err(); err != nil {
-			return connectorPB.Connector_STATE_UNSPECIFIED, err
+			return connectorPB.Connector_STATE_ERROR, err
 		}
 
 		var jsonMsg map[string]interface{}
@@ -513,7 +513,7 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 			}
 		}
 	}
-	return connectorPB.Connector_STATE_UNSPECIFIED, nil
+	return connectorPB.Connector_STATE_ERROR, nil
 }
 
 func (con *Connection) GetTaskName() (string, error) {
