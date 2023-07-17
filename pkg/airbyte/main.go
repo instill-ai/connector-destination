@@ -51,11 +51,12 @@ type Connector struct {
 }
 
 type ConnectorOptions struct {
-	MountSourceVDP     string
-	MountTargetVDP     string
-	MountSourceAirbyte string
-	MountTargetAirbyte string
-	VDPProtocolPath    string
+	MountSourceVDP        string
+	MountTargetVDP        string
+	MountSourceAirbyte    string
+	MountTargetAirbyte    string
+	VDPProtocolPath       string
+	ExcludeLocalConnector bool
 }
 
 type Connection struct {
@@ -91,6 +92,11 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 			options:       options,
 		}
 		for idx := range connDefs {
+			if options.ExcludeLocalConnector &&
+				(connDefs[idx].Id == "airbyte-destination-local-json" || connDefs[idx].Id == "airbyte-destination-csv" ||
+					connDefs[idx].Id == "airbyte-destination-sqlite" || connDefs[idx].Id == "airbyte-destination-duckdb") {
+				connDefs[idx].Tombstone = true
+			}
 			err := connector.AddConnectorDefinition(uuid.FromStringOrNil(connDefs[idx].GetUid()), connDefs[idx].GetId(), connDefs[idx])
 			if err != nil {
 				logger.Warn(err.Error())
@@ -516,6 +522,6 @@ func (con *Connection) Test() (connectorPB.Connector_State, error) {
 	return connectorPB.Connector_STATE_ERROR, nil
 }
 
-func (con *Connection) GetTaskName() (string, error) {
-	return "TASK_UNSPECIFIED", nil
+func (con *Connection) GetTask() (connectorPB.Task, error) {
+	return connectorPB.Task_TASK_UNSPECIFIED, nil
 }
