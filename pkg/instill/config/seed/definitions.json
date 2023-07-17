@@ -21,5 +21,28 @@
     "tombstone": false,
     "uid": "909c3278-f7d1-461c-9352-87741bef11d3",
     "vendorAttributes": {}
+  },
+  {
+    "custom": false,
+    "documentationUrl": "https://www.instill.tech/docs/destination-connectors/grpc",
+    "icon": "grpc.svg",
+    "iconUrl": "",
+    "id": "destination-grpc",
+    "public": true,
+    "spec": {
+      "documentationUrl": "https://www.instill.tech/docs/destination-connectors/grpc",
+      "connectionSpecification": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "gRPC Destination Connector Spec",
+        "type": "object",
+        "required": [],
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    "title": "gRPC",
+    "tombstone": true,
+    "uid": "c0e4a82c-9620-4a72-abd1-18586f2acccd",
+    "vendorAttributes": {}
   }
 ]
